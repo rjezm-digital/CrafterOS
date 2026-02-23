@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CraftOS – Print Cost Calculator</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css" />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ================================
+  HEADER
+================================ -->
+<header class="app-header">
+  <h1>🖨️ CraftOS</h1>
+  <p>Print Cost Calculator</p>
+</header>
+
+<!-- ================================
+  MAIN APP
+================================ -->
+<main class="app-container">
+
+  <!-- PRINTER -->
+  <section class="card">
+    <h2>Printer</h2>
+    <div class="form-group">
+      <label>Select Printer</label>
+      <select>
+        <option>Printer A</option>
+        <option>Printer B</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- PRINT DETAILS -->
+  <section class="card">
+    <h2>Print Details</h2>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Paper Size</label>
+        <select>
+          <option>A4</option>
+          <option>Letter</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" id="quantity" value="0" min="0">
+      </div>
+    </div>
+  </section>
+
+  <!-- CMYK -->
+  <section class="card">
+    <h2>CMYK Ink Cost</h2>
+
+    <div class="grid-4">
+      <div class="form-group">
+        <label>Cyan (₱/ml)</label>
+        <input type="number" id="cCost" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Magenta (₱/ml)</label>
+        <input type="number" id="mCost" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Yellow (₱/ml)</label>
+        <input type="number" id="yCost" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Black (₱/ml)</label>
+        <input type="number" id="kCost" step="0.01">
+      </div>
+    </div>
+
+    <div class="grid-4" style="margin-top:.75rem">
+      <div class="form-group">
+        <label>C Usage (ml/page)</label>
+        <input type="number" id="cUsage" value="0.02" step="0.001">
+      </div>
+      <div class="form-group">
+        <label>M Usage (ml/page)</label>
+        <input type="number" id="mUsage" value="0.02" step="0.001">
+      </div>
+      <div class="form-group">
+        <label>Y Usage (ml/page)</label>
+        <input type="number" id="yUsage" value="0.02" step="0.001">
+      </div>
+      <div class="form-group">
+        <label>K Usage (ml/page)</label>
+        <input type="number" id="kUsage" value="0.04" step="0.001">
+      </div>
+    </div>
+  </section>
+
+  <!-- ELECTRICITY -->
+  <section class="card">
+    <h2>Electricity</h2>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Printer Wattage (W)</label>
+        <input type="number" id="printerWatt">
+      </div>
+      <div class="form-group">
+        <label>₱ per kWh</label>
+        <input type="number" id="kwhRate" value="11">
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:.75rem">
+      <div class="form-group">
+        <label>Print Time / Page (sec)</label>
+        <input type="number" id="timePerPage" value="3">
+      </div>
+      <div class="form-group">
+        <label>Total Print Time (hrs)</label>
+        <input type="text" id="totalHours" disabled>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVENTORY -->
+  <section class="card">
+    <h2>Inventory</h2>
+
+    <h3>Paper</h3>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Paper Cost (₱/sheet)</label>
+        <input type="number" id="paperCost" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Paper Stock</label>
+        <input type="number" id="paperStock">
+      </div>
+    </div>
+
+    <h3 style="margin-top:1rem">Ink Stock (ml)</h3>
+    <div class="grid-4">
+      <div class="form-group"><label>C</label><input type="number" id="cStock"></div>
+      <div class="form-group"><label>M</label><input type="number" id="mStock"></div>
+      <div class="form-group"><label>Y</label><input type="number" id="yStock"></div>
+      <div class="form-group"><label>K</label><input type="number" id="kStock"></div>
+    </div>
+
+    <div class="inventory-warning" id="inventoryWarning"></div>
+  </section>
+
+  <!-- PROFIT -->
+  <section class="card">
+    <h2>Product & Profit</h2>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Labor / Overhead (₱)</label>
+        <input type="number" id="laborCost" value="0">
+      </div>
+      <div class="form-group">
+        <label>Profit Margin (%)</label>
+        <input type="number" id="profitMargin" value="30">
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:.75rem">
+      <div class="form-group">
+        <label>Profit (₱)</label>
+        <input type="text" id="profitAmount" disabled>
+      </div>
+      <div class="form-group">
+        <label>Selling Price (₱)</label>
+        <input type="text" id="sellingPrice" disabled>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOTAL -->
+  <section class="card total-card">
+    <h2>Base Cost</h2>
+    <div class="total-amount" id="totalCost">₱ 0.00</div>
+  </section>
+
+  <!-- RECEIPT -->
+  <section class="card">
+    <h2>Receipt</h2>
+
+    <div class="receipt-preview">
+      <p><strong>Job Ref:</strong> <span id="jobRef"></span></p>
+      <p><strong>Date:</strong> <span id="jobDate"></span></p>
+      <hr>
+      <p>Quantity: <span id="rQty"></span></p>
+      <p>Paper: <span id="rPaper"></span></p>
+      <p>Ink: <span id="rInk"></span></p>
+      <p>Electricity: <span id="rElectricity"></span></p>
+      <p>Labor: <span id="rLabor"></span></p>
+      <hr>
+      <p><strong>Base:</strong> <span id="rBase"></span></p>
+      <p><strong>Profit:</strong> <span id="rProfit"></span></p>
+      <p class="receipt-total">TOTAL: <span id="rTotal"></span></p>
+    </div>
+
+    <button class="primary-btn" id="printBtn">Print / Save PDF</button>
+  </section>
+
+</main>
+
+<!-- ================================
+  JS (ORDER MATTERS)
+================================ -->
+
+<!-- Business Logic -->
+<script src="js/cmyk.js"></script>
+<script src="js/electricity.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/receipt.js"></script>
+<script src="js/calculator.js"></script>
+
+<!-- Firebase (ALL-IN-ONE) -->
+<script type="module" src="js/firebase.js"></script>
+
+<!-- App Controller -->
+<script src="js/app.js"></script>
+
+</body>
+</html>
