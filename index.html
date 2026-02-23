@@ -3,230 +3,257 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CraftOS – Print Cost Calculator</title>
+  <title>RJEZM DIGITAL – Print Cost Calculator</title>
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/main.css" />
-
-  <!-- Font -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- Dashboard Theme -->
+  <style>
+    :root {
+      --bg-main: #020617;
+      --bg-card: #0f172a;
+      --bg-soft: #111827;
+      --border: rgba(56,189,248,.25);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --primary: linear-gradient(135deg,#22d3ee,#3b82f6);
+      --accent: linear-gradient(135deg,#a855f7,#ec4899);
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: var(--text);
+    }
+
+    /* HEADER */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid #1e293b;
+      background: linear-gradient(180deg,#020617,#020617cc);
+    }
+
+    .brand {
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .brand span {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .user-actions {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: .45rem .9rem;
+      font-size: .85rem;
+      cursor: pointer;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .btn.danger {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+
+    /* KPI */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 1rem;
+      padding: 1.5rem 2rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+    }
+
+    .kpi-card span {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .kpi-card strong {
+      display: block;
+      margin-top: .25rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .kpi-card.highlight strong {
+      color: #22c55e;
+    }
+
+    /* TABS */
+    .tab-nav {
+      display: flex;
+      gap: .75rem;
+      padding: 0 2rem;
+    }
+
+    .tab {
+      background: var(--bg-soft);
+      border-radius: 999px;
+      padding: .6rem 1.2rem;
+      font-size: .85rem;
+      color: var(--muted);
+      cursor: pointer;
+      border: none;
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: #020617;
+      font-weight: 600;
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 1.5rem 2rem;
+    }
+
+    .content-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .content-card h2 {
+      margin: 0 0 1rem;
+      font-size: 1.1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr auto;
+      gap: .75rem;
+    }
+
+    select, input {
+      background: var(--bg-soft);
+      border: 1px solid #1e293b;
+      border-radius: var(--radius-md);
+      padding: .6rem;
+      color: var(--text);
+    }
+
+    .btn.gradient {
+      background: var(--accent);
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .empty {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: repeat(2,1fr); }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================================
-  HEADER
-================================ -->
-<header class="app-header">
-  <h1>🖨️ CraftOS</h1>
-  <p>Print Cost Calculator</p>
+<!-- HEADER -->
+<header class="dashboard-header">
+  <div class="brand">
+    <div>
+      <h1>RJEZM DIGITAL</h1>
+      <span>Print Cost Calculator</span>
+    </div>
+  </div>
+
+  <div class="user-actions">
+    <span class="user-email">admin@rjezm.com</span>
+    <button class="btn ghost">🔑 Change Password</button>
+    <button class="btn danger" id="logoutBtn">Logout</button>
+  </div>
 </header>
 
-<!-- ================================
-  MAIN APP
-================================ -->
-<main class="app-container">
+<!-- KPI -->
+<section class="kpi-grid">
+  <div class="kpi-card"><span>Materials</span><strong id="kpiMaterials">0</strong></div>
+  <div class="kpi-card"><span>Costing Items</span><strong id="kpiCosting">0</strong></div>
+  <div class="kpi-card"><span>Saved Products</span><strong id="kpiProducts">0</strong></div>
+  <div class="kpi-card highlight"><span>Total Revenue</span><strong id="kpiRevenue">₱0.00</strong></div>
+</section>
 
-  <!-- PRINTER -->
-  <section class="card">
-    <h2>Printer</h2>
-    <div class="form-group">
-      <label>Select Printer</label>
+<!-- TABS -->
+<nav class="tab-nav">
+  <button class="tab active">📦 Materials</button>
+  <button class="tab">🧮 Costing</button>
+  <button class="tab">🎨 CMYK Ink</button>
+  <button class="tab">💰 Calculator</button>
+  <button class="tab">📦 Products</button>
+  <button class="tab">🧾 Receipt</button>
+</nav>
+
+<!-- CONTENT -->
+<main class="content">
+  <section class="content-card">
+    <h2>🎨 Ink Materials</h2>
+
+    <div class="form-row">
       <select>
-        <option>Printer A</option>
-        <option>Printer B</option>
+        <option>-- Select Color --</option>
+        <option>Cyan</option>
+        <option>Magenta</option>
+        <option>Yellow</option>
+        <option>Black</option>
       </select>
+
+      <input type="number" placeholder="Total Cost (₱)">
+      <input type="number" value="70">
+      <input type="number" value="1">
+
+      <button class="btn gradient">+ Add Ink</button>
     </div>
+
+    <div class="empty">No ink materials added yet.</div>
   </section>
-
-  <!-- PRINT DETAILS -->
-  <section class="card">
-    <h2>Print Details</h2>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Paper Size</label>
-        <select>
-          <option>A4</option>
-          <option>Letter</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Quantity</label>
-        <input type="number" id="quantity" value="0" min="0">
-      </div>
-    </div>
-  </section>
-
-  <!-- CMYK -->
-  <section class="card">
-    <h2>CMYK Ink Cost</h2>
-
-    <div class="grid-4">
-      <div class="form-group">
-        <label>Cyan (₱/ml)</label>
-        <input type="number" id="cCost" step="0.01">
-      </div>
-      <div class="form-group">
-        <label>Magenta (₱/ml)</label>
-        <input type="number" id="mCost" step="0.01">
-      </div>
-      <div class="form-group">
-        <label>Yellow (₱/ml)</label>
-        <input type="number" id="yCost" step="0.01">
-      </div>
-      <div class="form-group">
-        <label>Black (₱/ml)</label>
-        <input type="number" id="kCost" step="0.01">
-      </div>
-    </div>
-
-    <div class="grid-4" style="margin-top:.75rem">
-      <div class="form-group">
-        <label>C Usage (ml/page)</label>
-        <input type="number" id="cUsage" value="0.02" step="0.001">
-      </div>
-      <div class="form-group">
-        <label>M Usage (ml/page)</label>
-        <input type="number" id="mUsage" value="0.02" step="0.001">
-      </div>
-      <div class="form-group">
-        <label>Y Usage (ml/page)</label>
-        <input type="number" id="yUsage" value="0.02" step="0.001">
-      </div>
-      <div class="form-group">
-        <label>K Usage (ml/page)</label>
-        <input type="number" id="kUsage" value="0.04" step="0.001">
-      </div>
-    </div>
-  </section>
-
-  <!-- ELECTRICITY -->
-  <section class="card">
-    <h2>Electricity</h2>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Printer Wattage (W)</label>
-        <input type="number" id="printerWatt">
-      </div>
-      <div class="form-group">
-        <label>₱ per kWh</label>
-        <input type="number" id="kwhRate" value="11">
-      </div>
-    </div>
-
-    <div class="grid-2" style="margin-top:.75rem">
-      <div class="form-group">
-        <label>Print Time / Page (sec)</label>
-        <input type="number" id="timePerPage" value="3">
-      </div>
-      <div class="form-group">
-        <label>Total Print Time (hrs)</label>
-        <input type="text" id="totalHours" disabled>
-      </div>
-    </div>
-  </section>
-
-  <!-- INVENTORY -->
-  <section class="card">
-    <h2>Inventory</h2>
-
-    <h3>Paper</h3>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Paper Cost (₱/sheet)</label>
-        <input type="number" id="paperCost" step="0.01">
-      </div>
-      <div class="form-group">
-        <label>Paper Stock</label>
-        <input type="number" id="paperStock">
-      </div>
-    </div>
-
-    <h3 style="margin-top:1rem">Ink Stock (ml)</h3>
-    <div class="grid-4">
-      <div class="form-group"><label>C</label><input type="number" id="cStock"></div>
-      <div class="form-group"><label>M</label><input type="number" id="mStock"></div>
-      <div class="form-group"><label>Y</label><input type="number" id="yStock"></div>
-      <div class="form-group"><label>K</label><input type="number" id="kStock"></div>
-    </div>
-
-    <div class="inventory-warning" id="inventoryWarning"></div>
-  </section>
-
-  <!-- PROFIT -->
-  <section class="card">
-    <h2>Product & Profit</h2>
-
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Labor / Overhead (₱)</label>
-        <input type="number" id="laborCost" value="0">
-      </div>
-      <div class="form-group">
-        <label>Profit Margin (%)</label>
-        <input type="number" id="profitMargin" value="30">
-      </div>
-    </div>
-
-    <div class="grid-2" style="margin-top:.75rem">
-      <div class="form-group">
-        <label>Profit (₱)</label>
-        <input type="text" id="profitAmount" disabled>
-      </div>
-      <div class="form-group">
-        <label>Selling Price (₱)</label>
-        <input type="text" id="sellingPrice" disabled>
-      </div>
-    </div>
-  </section>
-
-  <!-- TOTAL -->
-  <section class="card total-card">
-    <h2>Base Cost</h2>
-    <div class="total-amount" id="totalCost">₱ 0.00</div>
-  </section>
-
-  <!-- RECEIPT -->
-  <section class="card">
-    <h2>Receipt</h2>
-
-    <div class="receipt-preview">
-      <p><strong>Job Ref:</strong> <span id="jobRef"></span></p>
-      <p><strong>Date:</strong> <span id="jobDate"></span></p>
-      <hr>
-      <p>Quantity: <span id="rQty"></span></p>
-      <p>Paper: <span id="rPaper"></span></p>
-      <p>Ink: <span id="rInk"></span></p>
-      <p>Electricity: <span id="rElectricity"></span></p>
-      <p>Labor: <span id="rLabor"></span></p>
-      <hr>
-      <p><strong>Base:</strong> <span id="rBase"></span></p>
-      <p><strong>Profit:</strong> <span id="rProfit"></span></p>
-      <p class="receipt-total">TOTAL: <span id="rTotal"></span></p>
-    </div>
-
-    <button class="primary-btn" id="printBtn">Print / Save PDF</button>
-  </section>
-
 </main>
 
-<!-- ================================
-  JS (ORDER MATTERS)
-================================ -->
-
-<!-- Business Logic -->
-<script src="js/cmyk.js"></script>
-<script src="js/electricity.js"></script>
-<script src="js/inventory.js"></script>
-<script src="js/receipt.js"></script>
-<script src="js/calculator.js"></script>
-
-<!-- Firebase (ALL-IN-ONE) -->
+<!-- JS (UNCHANGED LOGIC FILES) -->
 <script type="module" src="js/firebase.js"></script>
-
-<!-- App Controller -->
 <script src="js/app.js"></script>
 
 </body>
