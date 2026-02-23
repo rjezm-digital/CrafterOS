@@ -1,0 +1,56 @@
+/* ================================
+   PRINT COST CALCULATOR
+   MAIN SCSS ENTRY
+================================ */
+
+/* Variables */
+@use 'variables';
+
+/* Base / Layout */
+@use 'layout';
+
+/* UI Components */
+@use 'cards';
+@use 'forms';
+@use 'buttons';
+
+/* ================================
+   GLOBAL SAFETY STYLES
+================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: variables.$bg;
+  color: variables.$text;
+}
+
+/* ================================
+   PRINT RULES
+================================ */
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  header,
+  button {
+    display: none !important;
+  }
+
+  .receipt-preview {
+    visibility: visible;
+  }
+}
