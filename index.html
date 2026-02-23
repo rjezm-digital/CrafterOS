@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RJEZM DIGITAL – Print Cost Calculator</title>
+  <title>CraftOS – Print Cost Calculator</title>
 
-  <!-- Fonts -->
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,244 +15,198 @@
 
   <!-- Dashboard Theme -->
   <style>
-    :root {
-      --bg-main: #020617;
-      --bg-card: #0f172a;
-      --bg-soft: #111827;
-      --border: rgba(56,189,248,.25);
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --primary: linear-gradient(135deg,#22d3ee,#3b82f6);
-      --accent: linear-gradient(135deg,#a855f7,#ec4899);
-      --radius-lg: 18px;
-      --radius-md: 14px;
+    :root{
+      --bg-main:#020617;
+      --bg-card:#0f172a;
+      --bg-soft:#111827;
+      --border:rgba(56,189,248,.25);
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --primary:linear-gradient(135deg,#22d3ee,#3b82f6);
+      --radius-lg:18px;
+      --radius-md:14px;
     }
-
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      color: var(--text);
+    body{
+      margin:0;
+      font-family:Inter,system-ui,sans-serif;
+      background:radial-gradient(circle at top,#0f172a,#020617);
+      color:var(--text);
     }
-
-    /* HEADER */
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 2rem;
-      border-bottom: 1px solid #1e293b;
-      background: linear-gradient(180deg,#020617,#020617cc);
+    .dashboard-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:1.25rem 2rem;
+      border-bottom:1px solid #1e293b;
     }
-
-    .brand {
-      display: flex;
-      gap: .75rem;
-      align-items: center;
+    .brand h1{margin:0;font-size:1.1rem}
+    .brand span{font-size:.8rem;color:var(--muted)}
+    .btn{border:none;border-radius:999px;padding:.45rem .9rem;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--muted)}
+    .btn.danger{background:#7f1d1d;color:#fecaca}
+    .kpi-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:1rem;
+      padding:1.5rem 2rem;
     }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 1.1rem;
-      font-weight: 700;
+    .kpi-card{
+      background:var(--bg-card);
+      border-radius:var(--radius-lg);
+      padding:1.25rem;
+      border:1px solid var(--border);
     }
-
-    .brand span {
-      font-size: .8rem;
-      color: var(--muted);
+    .kpi-card span{font-size:.8rem;color:var(--muted)}
+    .kpi-card strong{display:block;font-size:1.4rem}
+    .tab-nav{
+      display:flex;
+      gap:.75rem;
+      padding:0 2rem;
     }
-
-    .user-actions {
-      display: flex;
-      gap: .5rem;
-      align-items: center;
+    .tab{
+      background:var(--bg-soft);
+      border-radius:999px;
+      padding:.6rem 1.2rem;
+      border:none;
+      color:var(--muted);
+      cursor:pointer;
     }
-
-    .btn {
-      border: none;
-      border-radius: 999px;
-      padding: .45rem .9rem;
-      font-size: .85rem;
-      cursor: pointer;
+    .tab.active{
+      background:var(--primary);
+      color:#020617;
+      font-weight:600;
     }
-
-    .btn.ghost {
-      background: transparent;
-      color: var(--muted);
+    .content{padding:1.5rem 2rem}
+    .content-card{
+      background:var(--bg-card);
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      padding:1.5rem;
     }
-
-    .btn.danger {
-      background: #7f1d1d;
-      color: #fecaca;
-    }
-
-    /* KPI */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 1rem;
-      padding: 1.5rem 2rem;
-    }
-
-    .kpi-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem;
-      border: 1px solid var(--border);
-    }
-
-    .kpi-card span {
-      font-size: .8rem;
-      color: var(--muted);
-    }
-
-    .kpi-card strong {
-      display: block;
-      margin-top: .25rem;
-      font-size: 1.4rem;
-      font-weight: 700;
-    }
-
-    .kpi-card.highlight strong {
-      color: #22c55e;
-    }
-
-    /* TABS */
-    .tab-nav {
-      display: flex;
-      gap: .75rem;
-      padding: 0 2rem;
-    }
-
-    .tab {
-      background: var(--bg-soft);
-      border-radius: 999px;
-      padding: .6rem 1.2rem;
-      font-size: .85rem;
-      color: var(--muted);
-      cursor: pointer;
-      border: none;
-    }
-
-    .tab.active {
-      background: var(--primary);
-      color: #020617;
-      font-weight: 600;
-    }
-
-    /* CONTENT */
-    .content {
-      padding: 1.5rem 2rem;
-    }
-
-    .content-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-    }
-
-    .content-card h2 {
-      margin: 0 0 1rem;
-      font-size: 1.1rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr 1fr auto;
-      gap: .75rem;
-    }
-
-    select, input {
-      background: var(--bg-soft);
-      border: 1px solid #1e293b;
-      border-radius: var(--radius-md);
-      padding: .6rem;
-      color: var(--text);
-    }
-
-    .btn.gradient {
-      background: var(--accent);
-      color: #020617;
-      font-weight: 600;
-    }
-
-    .empty {
-      margin-top: 1.5rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: .9rem;
-    }
-
-    @media (max-width: 900px) {
-      .kpi-grid { grid-template-columns: repeat(2,1fr); }
-      .form-row { grid-template-columns: 1fr; }
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+    @media(max-width:900px){
+      .kpi-grid{grid-template-columns:repeat(2,1fr)}
     }
   </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header class="dashboard-header">
   <div class="brand">
-    <div>
-      <h1>RJEZM DIGITAL</h1>
-      <span>Print Cost Calculator</span>
-    </div>
+    <h1>RJEZM DIGITAL</h1>
+    <span>Print Cost Calculator</span>
   </div>
-
-  <div class="user-actions">
-    <span class="user-email">admin@rjezm.com</span>
-    <button class="btn ghost">🔑 Change Password</button>
-    <button class="btn danger" id="logoutBtn">Logout</button>
+  <div>
+    <button class="btn ghost">Change Password</button>
+    <button class="btn danger">Logout</button>
   </div>
 </header>
 
-<!-- KPI -->
 <section class="kpi-grid">
-  <div class="kpi-card"><span>Materials</span><strong id="kpiMaterials">0</strong></div>
-  <div class="kpi-card"><span>Costing Items</span><strong id="kpiCosting">0</strong></div>
-  <div class="kpi-card"><span>Saved Products</span><strong id="kpiProducts">0</strong></div>
-  <div class="kpi-card highlight"><span>Total Revenue</span><strong id="kpiRevenue">₱0.00</strong></div>
+  <div class="kpi-card"><span>Materials</span><strong>0</strong></div>
+  <div class="kpi-card"><span>Costing Items</span><strong>0</strong></div>
+  <div class="kpi-card"><span>Products</span><strong>0</strong></div>
+  <div class="kpi-card"><span>Revenue</span><strong>₱0.00</strong></div>
 </section>
 
-<!-- TABS -->
 <nav class="tab-nav">
-  <button class="tab active">📦 Materials</button>
-  <button class="tab">🧮 Costing</button>
-  <button class="tab">🎨 CMYK Ink</button>
-  <button class="tab">💰 Calculator</button>
-  <button class="tab">📦 Products</button>
-  <button class="tab">🧾 Receipt</button>
+  <button class="tab" data-tab="materials">Materials</button>
+  <button class="tab active" data-tab="costing">Costing</button>
+  <button class="tab" data-tab="calculator">Calculator</button>
+  <button class="tab" data-tab="receipt">Receipt</button>
 </nav>
 
-<!-- CONTENT -->
 <main class="content">
-  <section class="content-card">
-    <h2>🎨 Ink Materials</h2>
 
-    <div class="form-row">
-      <select>
-        <option>-- Select Color --</option>
-        <option>Cyan</option>
-        <option>Magenta</option>
-        <option>Yellow</option>
-        <option>Black</option>
-      </select>
+  <!-- MATERIALS -->
+  <section class="content-card tab-panel" data-panel="materials">
+    <h2>Materials</h2>
+    <p style="color:var(--muted)">Coming soon</p>
+  </section>
 
-      <input type="number" placeholder="Total Cost (₱)">
-      <input type="number" value="70">
-      <input type="number" value="1">
+  <!-- COSTING -->
+  <section class="content-card tab-panel active" data-panel="costing">
+    <h2>Costing Presets</h2>
 
-      <button class="btn gradient">+ Add Ink</button>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Paper Cost (₱/sheet)</label>
+        <input type="number" id="presetPaperCost">
+      </div>
+      <div class="form-group">
+        <label>Labor Cost (₱)</label>
+        <input type="number" id="presetLaborCost">
+      </div>
     </div>
 
-    <div class="empty">No ink materials added yet.</div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Profit Margin (%)</label>
+        <input type="number" id="presetProfitMargin" value="30">
+      </div>
+      <div class="form-group">
+        <label>Electricity Rate (₱/kWh)</label>
+        <input type="number" id="presetKwhRate" value="11">
+      </div>
+    </div>
+
+    <button class="primary-btn" id="applyCostingBtn">Apply to Calculator</button>
+    <button class="btn ghost" id="saveCostingBtn">Save Defaults</button>
   </section>
+
+  <!-- CALCULATOR -->
+  <section class="content-card tab-panel" data-panel="calculator">
+    <h2>Print Cost Calculator</h2>
+
+    <label>Quantity</label>
+    <input type="number" id="quantity">
+
+    <label>Paper Cost</label>
+    <input type="number" id="paperCost">
+
+    <label>Paper Stock</label>
+    <input type="number" id="paperStock">
+
+    <label>Labor Cost</label>
+    <input type="number" id="laborCost">
+
+    <label>Profit Margin (%)</label>
+    <input type="number" id="profitMargin">
+
+    <div id="inventoryWarning"></div>
+    <div>Total Cost: <span id="totalCost">₱0.00</span></div>
+  </section>
+
+  <!-- RECEIPT -->
+  <section class="content-card tab-panel" data-panel="receipt">
+    <h2>Receipt</h2>
+
+    <p>Job Ref: <span id="jobRef"></span></p>
+    <p>Date: <span id="jobDate"></span></p>
+
+    <p>Qty: <span id="rQty"></span></p>
+    <p>Paper: <span id="rPaper"></span></p>
+    <p>Ink: <span id="rInk"></span></p>
+    <p>Electricity: <span id="rElectricity"></span></p>
+    <p>Labor: <span id="rLabor"></span></p>
+
+    <p>Base: <span id="rBase"></span></p>
+    <p>Profit: <span id="rProfit"></span></p>
+    <p>Total: <span id="rTotal"></span></p>
+
+    <button id="printBtn">Print</button>
+  </section>
+
 </main>
 
-<!-- JS (UNCHANGED LOGIC FILES) -->
+<!-- JS -->
+<script src="js/cmyk.js"></script>
+<script src="js/electricity.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/receipt.js"></script>
+<script src="js/calculator.js"></script>
 <script type="module" src="js/firebase.js"></script>
 <script src="js/app.js"></script>
 
